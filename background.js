@@ -23,7 +23,7 @@ async function onBeforeWebRequest(requestDetails) {
       });
       return { cancel: true };
     }
-  } else {
+  } /*else {
     const tab = await browser.tabs.get(requestDetails.tabId);
 
     if (tab.openerTabId && tabId2Origin.has(tab.openerTabId)) {
@@ -38,7 +38,7 @@ async function onBeforeWebRequest(requestDetails) {
         browser.tabs.remove(requestDetails.tabId);
       }
     }
-  }
+  }*/
 }
 
 browser.webRequest.onBeforeRequest.addListener(
