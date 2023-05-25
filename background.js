@@ -23,22 +23,7 @@ async function onBeforeWebRequest(requestDetails) {
       });
       return { cancel: true };
     }
-  } /*else {
-    const tab = await browser.tabs.get(requestDetails.tabId);
-
-    if (tab.openerTabId && tabId2Origin.has(tab.openerTabId)) {
-      const tab_origin = new URL(requestDetails.url).origin;
-      const opener_origin = tabId2Origin.get(tab.openerTabId);
-
-      if (tab_origin === opener_origin) {
-        browser.tabs.update(tab.openerTabId, {
-          active: true,
-          url: requestDetails.url,
-        });
-        browser.tabs.remove(requestDetails.tabId);
-      }
-    }
-  }*/
+  }
 }
 
 browser.webRequest.onBeforeRequest.addListener(
@@ -64,3 +49,9 @@ browser.tabs.onUpdated.addListener(
   },
   { properties: ["status"] }
 );
+
+browser.tabs.onRemoved.addListener((tabId) => {
+  if (tabId2Origin.has(tabId)) {
+    tabId2Origin.delete(tabId);
+  }
+});
